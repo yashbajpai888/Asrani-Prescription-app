@@ -4,9 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>BluDoc - Prescription (Templates)</title>
+    <title>Dr-Anshul-Asrani's - Prescription (Templates)</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="./assets/favicon.jpeg">
 
     <style>
         :root {
@@ -358,15 +360,17 @@
         <div class="panel" aria-label="Controls">
             <div class="logo-area">
                 <div class="logo-box" id="logoBox">
-                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
                         <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2" stroke-linecap="round" />
                         <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
-                    </svg>
+                    </svg> -->
+                    <img src="./assets/favicon.jpeg" alt="asrani-logo">
                 </div>
                 <div style="flex:1">
-                    <div style="font-weight:700;color:var(--blue-900)">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</div>
-                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Anshul Asrani • MDS -
+                    <div style="font-weight:700;color:var(--blue-900)">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE,
+                        INDORA SQUARE </div>
+                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Anshul A Asrani • MDS -
                         Conservative
                         & Endodontics</div>
                     <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Ravina A Asrani • MDS -
@@ -375,7 +379,8 @@
                 </div>
             </div>
 
-            <label>Upload logo (optional)</label>
+            <!-- <label>Upload logo </label> -->
+            <!-- <input id="logoInput" type="file" accept="image/*" /> -->
             <input id="logoInput" type="file" accept="image/*" />
 
             <label>Patient name</label>
@@ -420,17 +425,19 @@
             <div id="prescriptionExport" class="pres-card" role="region" aria-label="Prescription">
                 <div class="pres-top">
                     <div class="pres-logo" id="presLogo">
-                        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
                             <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2"
                                 stroke-linecap="round" />
                             <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
-                        </svg>
+                        </svg> -->
+                        <img src="./assets/favicon.jpeg" alt="">
                     </div>
 
                     <div class="pres-info">
-                        <h1 id="clinicTitle">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</h1>
-                        <p id="doctorLine">Dr. Anshul Asrani • MDS - Conservative & Endodontics</p>
+                        <h1 id="clinicTitle">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE, INDORA SQUARE </h1>
+                        <p id="doctorLine">Dr. Anshul A Asrani • MDS - Conservative & Endodontics</p>
+                        <p id="doctorLine">Dr. Ravina A Asrani • MDS - Prosthodontist & Implantologist</p>
                         <p style="font-size:12px;color:rgba(255,255,255,0.9)">Reg. No - A-28742 • Rabyjyoti Nest,
                             Ambedkar Road</p>
                     </div>
@@ -765,27 +772,34 @@
             updatePreview();
             const element = document.getElementById('prescriptionExport');
             try {
-                sharePdfBtn.disabled = true; sharePdfBtn.textContent = 'Generating...';
+                sharePdfBtn.disabled = true;
+                sharePdfBtn.textContent = 'Generating...';
+
                 const blob = await generatePdfBlob(element);
                 const file = blobToFile(blob, 'Prescription.pdf');
-                const phoneRaw = (patientPhoneInput.value || '').replace(/\s+/g, '').replace(/\+/g, '');
-                const phone = phoneRaw ? phoneRaw : '';
-                const waTextForShare = buildWhatsAppText();
-                const shareRes = await tryShareFile(file, waTextForShare);
-                if (shareRes.shared) {
-                    alert('Share dialog opened. Choose WhatsApp (if available) to send the PDF.');
-                } else {
-                    // fallback: download + open wa.me with message instructing to attach
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a'); a.href = url; a.download = 'Prescription.pdf'; document.body.appendChild(a); a.click(); a.remove();
-                    URL.revokeObjectURL(url);
-                    const msg = `Hello, I have shared prescription for ${patientNameInput.value || 'patient'}. Please attach the downloaded PDF.`;
-                    openWhatsAppLink(phone, msg + '\n\n' + buildWhatsAppText());
-                    alert('PDF downloaded. WhatsApp opened — please attach the downloaded PDF before sending.');
-                }
-            } catch (err) { console.error(err); alert('Error generating/sharing PDF. See console.'); }
-            finally { sharePdfBtn.disabled = false; sharePdfBtn.textContent = 'Generate & Share PDF to WhatsApp'; }
+
+                // Get the phone number entered in app
+                let phoneRaw = (patientPhoneInput.value || '').replace(/\s+/g, '').replace(/\+/g, '');
+                if (!phoneRaw) return alert('Please enter patient WhatsApp number.');
+
+                // Build WhatsApp text
+                const waText = buildWhatsAppText();
+
+                // Open WhatsApp Web with the number and text
+                const waURL = `https://wa.me/${phoneRaw}?text=${encodeURIComponent(waText)}`;
+                window.open(waURL, '_blank');
+
+                alert('WhatsApp opened with message for the entered number. Attach PDF if needed.');
+
+            } catch (err) {
+                console.error(err);
+                alert('Error generating/sharing PDF. See console.');
+            } finally {
+                sharePdfBtn.disabled = false;
+                sharePdfBtn.textContent = 'Generate & Share PDF to WhatsApp';
+            }
         });
+
 
         downloadPdfBtn.addEventListener('click', async () => {
             updatePreview();
