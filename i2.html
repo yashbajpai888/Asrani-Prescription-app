@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BluDoc - Prescription</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blue-900: #073763;
+            --blue-700: #146aa0;
+            --accent: #2b90d9;
+            --muted: #6b7280;
+            --card-bg: #fff;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Arial;
+            background: linear-gradient(180deg, #eef6fb, #f7fbff);
+            padding: 18px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            color: #062431;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 460px;
+            gap: 18px;
+            align-items: start;
+        }
+
+        /* Left column: inputs */
+        .panel {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 8px 22px rgba(8, 30, 48, 0.06);
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .logo-area {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 10px;
+            background: #f3f8ff;
+            border: 1px solid #e9f3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-top: 10px;
+            color: #223
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #e6eef6;
+            font-size: 14px;
+            background: #fbfdff;
+            margin-top: 6px;
+        }
+
+        textarea {
+            min-height: 72px;
+            resize: vertical
+        }
+
+        .med-list {
+            margin-top: 12px
+        }
+
+        .med-item {
+            background: linear-gradient(180deg, #fbfeff, #f7fbff);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #eef6fb;
+            display: grid;
+            gap: 8px;
+        }
+
+        .med-item .row {
+            flex-wrap: wrap
+        }
+
+        .med-item input {
+            flex: 1;
+            min-width: 120px
+        }
+
+        .btn {
+            border: 0;
+            padding: 9px 12px;
+            border-radius: 10px;
+            background: var(--blue-700);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(19, 85, 140, 0.08);
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--blue-700);
+            border: 1px solid rgba(20, 106, 160, 0.12);
+            box-shadow: none
+        }
+
+        .btn.danger {
+            background: #d9534f
+        }
+
+        .small {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        /* Right column: preview card */
+        .preview-wrap {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .pres-card {
+            border-radius: 14px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(7, 55, 99, 0.98), rgba(20, 106, 160, 0.98));
+            color: white;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(7, 55, 99, 0.12);
+        }
+
+        .pres-top {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .pres-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06)
+        }
+
+        .pres-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain
+        }
+
+        .pres-info h1 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0.2px
+        }
+
+        .pres-info p {
+            margin: 2px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.92)
+        }
+
+        .pres-body {
+            background: #fff;
+            color: #062431;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+
+        .patient-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px
+        }
+
+        .patient-row .left {
+            font-weight: 700
+        }
+
+        .rx-mark {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: serif
+        }
+
+        .rx-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .rx-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f7fbff;
+            border: 1px solid #e6f1fb
+        }
+
+        .rx-item .left {
+            max-width: 70%
+        }
+
+        .rx-item .left b {
+            display: block
+        }
+
+        .pres-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            border-top: 1px dashed #eef6fb;
+            padding-top: 10px;
+            color: #083049
+        }
+
+        .site-footer {
+            background: linear-gradient(180deg, #ffffff, #fbfdff);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            border: 1px solid #eef6fb
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        @media (max-width:900px) {
+            .app {
+                grid-template-columns: 1fr;
+                padding-bottom: 20px
+            }
+
+            .preview-wrap {
+                order: -1
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- LEFT: Inputs -->
+        <div class="panel" aria-label="Controls">
+            <div class="logo-area">
+                <div class="logo-box" id="logoBox">
+                    <!-- placeholder -->
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
+                        <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2" stroke-linecap="round" />
+                        <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
+                    </svg>
+                </div>
+                <div style="flex:1">
+                    <div style="font-weight:700;color:var(--blue-900)">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</div>
+                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Anshul Asrani • MDS -
+                        Prosthodontist
+                        & Implantologist</div>
+                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Ravina A Asrani • MDS -
+                        Conservative
+                        & Endodontics</div>
+                </div>
+            </div>
+
+            <label>Upload logo (optional)</label>
+            <input id="logoInput" type="file" accept="image/*" />
+
+            <label>Patient name</label>
+            <input id="patientName" type="text" placeholder="Patient name" value="" />
+
+            <label>Gender / Age</label>
+            <input id="patientGender" type="text" placeholder="Male, 38 yrs" value="" />
+
+            <label>Patient WhatsApp no. (with country code) — optional</label>
+            <input id="patientPhone" type="tel" placeholder="+9198XXXXXXXX" />
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+                <label style="margin:0">Medicines</label>
+                <button class="btn" id="addMedBtn">+ Add</button>
+            </div>
+
+            <small class="small">Type medicine name once → it will be saved for next suggestions.</small>
+
+            <datalist id="medSuggestions"></datalist>
+            <div class="med-list" id="medList"></div>
+
+            <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+                <button class="btn" id="updatePreview">Update Preview</button>
+                <button class="btn ghost" id="clearMeds">Clear Medicines</button>
+            </div>
+
+            <div class="small" style="margin-top:12px">
+                Tip: On mobile, sharing the prescription PDF directly to WhatsApp is supported when your browser allows
+                file sharing.
+            </div>
+        </div>
+
+        <!-- RIGHT: Preview -->
+        <div class="preview-wrap">
+
+            <!-- PRESCRIPTION CARD (this will be exported to PDF) -->
+            <div id="prescriptionExport" class="pres-card" role="region" aria-label="Prescription">
+                <div class="pres-top">
+                    <div class="pres-logo" id="presLogo">
+                        <!-- same placeholder -->
+                        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
+                            <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2"
+                                stroke-linecap="round" />
+                            <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
+                        </svg>
+                    </div>
+
+                    <div class="pres-info">
+                        <h1 id="clinicTitle">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</h1>
+                        <p id="doctorLine">Dr. Anshul Asrani • MDS - Conservative & Endodontics</p>
+                        <p style="font-size:12px;color:rgba(255,255,255,0.9)">Reg. No - A-28742 • Rabyjyoti Nest,
+                            Ambedkar Road</p>
+                    </div>
+                </div>
+
+                <div class="pres-body" id="presBody">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-size:13px;color:var(--muted)">Patient</div>
+                            <div id="pname" style="font-weight:700">Mr. R Chelani</div>
+                            <div id="pgender" style="font-size:13px;color:var(--muted)">Male, 38 yrs</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-size:13px;color:var(--muted)">Date</div>
+                            <div id="pdate" style="font-weight:700"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:12px">
+                        <div class="rx-mark">Rx</div>
+                        <div style="flex:1">
+                            <div style="font-weight:700;color:var(--blue-900);margin-bottom:6px">Prescription</div>
+                            <div class="rx-list" id="rxList">
+                                <!-- items injected -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pres-footer">
+                        <div>
+                            <div style="font-weight:700">Visiting Hours</div>
+                            <div style="font-size:13px;margin-top:4px">10:00 AM - 4:00 PM, 6:00 PM - 10:00 PM</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-weight:700">Contact</div>
+                            <div style="font-size:13px;margin-top:4px">+919595956560</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer" style="margin-top:10px">
+                <div><strong>Working Days:</strong> All 7 Days (Saturday - Friday)</div>
+                <div style="margin-top:6px"><strong>Contact:</strong> +919595956560 • Email: dranshulasrani@gmail.com
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:10px">
+                <button class="btn" id="sharePdfBtn">Generate & Share PDF to WhatsApp</button>
+                <button class="btn ghost" id="downloadPdfBtn">Download Prescription PDF</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- html2pdf bundle (uses html2canvas + jspdf) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+    <script>
+        // ---------- Settings & elements ----------
+        const medKey = 'bldoc_meds_v1';
+        const storedMeds = JSON.parse(localStorage.getItem(medKey) || '[]');
+        const medSuggestions = document.getElementById('medSuggestions') || (() => { // create if not present
+            const d = document.createElement('datalist'); d.id = 'medSuggestions'; document.body.appendChild(d); return d;
+        })();
+
+        const medList = document.getElementById('medList');
+        const addMedBtn = document.getElementById('addMedBtn');
+        const updatePreviewBtn = document.getElementById('updatePreview');
+        const clearMedsBtn = document.getElementById('clearMeds');
+        const presDate = document.getElementById('pdate');
+        const pname = document.getElementById('pname');
+        const pgender = document.getElementById('pgender');
+        const rxList = document.getElementById('rxList');
+        const patientNameInput = document.getElementById('patientName');
+        const patientGenderInput = document.getElementById('patientGender');
+        const patientPhoneInput = document.getElementById('patientPhone');
+        const logoInput = document.getElementById('logoInput');
+        const presLogo = document.getElementById('presLogo');
+        const logoBox = document.getElementById('logoBox');
+
+        const sharePdfBtn = document.getElementById('sharePdfBtn');
+        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+
+        // initialize datalist
+        function refreshSuggestions() {
+            medSuggestions.innerHTML = storedMeds.map(m => `<option value="${m}"></option>`).join('');
+        }
+        refreshSuggestions();
+
+        // format date dd-mm-yyyy
+        function formatDate(d = new Date()) {
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yy = d.getFullYear();
+            return `${dd}-${mm}-${yy}`;
+        }
+        presDate.textContent = formatDate();
+
+        // add med UI
+        function addMedicine(initial = { name: '', dose: '', duration: '', form: '', alt: '' }) {
+            const div = document.createElement('div');
+            div.className = 'med-item';
+            div.innerHTML = `
+        <div class="row">
+          <input list="medSuggestions" class="med-name" placeholder="Medicine name" value="${escapeHtml(initial.name)}" />
+          <input class="med-dose" placeholder="Dose (e.g. 1-0-1)" value="${escapeHtml(initial.dose)}" />
+        </div>
+        <div class="row">
+          <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
+          <input class="med-form" placeholder="Form (Tablet/Oral)" value="${escapeHtml(initial.form)}"/>
+        </div>
+        <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn ghost save-med">Save Name</button>
+          <button class="btn danger remove-med">Remove</button>
+        </div>
+      `;
+            medList.appendChild(div);
+
+            // handlers
+            div.querySelector('.remove-med').onclick = () => { div.remove(); updatePreview(); };
+            div.querySelector('.save-med').onclick = () => {
+                const name = div.querySelector('.med-name').value.trim();
+                if (!name) return alert('Enter a medicine name to save.');
+                if (!storedMeds.includes(name)) {
+                    storedMeds.push(name);
+                    localStorage.setItem(medKey, JSON.stringify(storedMeds));
+                    refreshSuggestions();
+                    alert('Medicine saved for suggestions.');
+                } else {
+                    alert('Medicine already saved.');
+                }
+            };
+
+            // enter triggers update
+            [...div.querySelectorAll('input')].forEach(inp => inp.addEventListener('input', () => updatePreview()));
+            updatePreview();
+            return div;
+        }
+
+        // escape for html attribute
+        function escapeHtml(s) {
+            return (s || '').replaceAll('"', '&quot;').replaceAll("'", '&#39;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+        }
+
+        // gather medicines from UI
+        function collectMeds() {
+            const items = [];
+            document.querySelectorAll('.med-item').forEach(node => {
+                const name = node.querySelector('.med-name').value.trim();
+                const dose = node.querySelector('.med-dose').value.trim();
+                const dur = node.querySelector('.med-duration').value.trim();
+                const form = node.querySelector('.med-form').value.trim();
+                const alt = node.querySelector('.med-alt').value.trim();
+                if (name || dose || dur || form || alt) items.push({ name, dose, dur, form, alt });
+            });
+            return items;
+        }
+
+        // render preview in prescription
+        function updatePreview() {
+            presDate.textContent = formatDate();
+            pname.textContent = patientNameInput.value || '—';
+            pgender.textContent = patientGenderInput.value || '—';
+            rxList.innerHTML = '';
+            const meds = collectMeds();
+            if (meds.length === 0) {
+                const el = document.createElement('div'); el.className = 'rx-item'; el.textContent = 'No medicines added.'; rxList.appendChild(el);
+            } else {
+                meds.forEach((m, i) => {
+                    const item = document.createElement('div'); item.className = 'rx-item';
+                    item.innerHTML = `<div class="left"><b>${i + 1}. ${m.name || '—'}</b>
+            <div style="font-size:13px;color:#234">${m.dose ? m.dose + ' • ' : ''}${m.dur || ''}${m.alt ? '<div style="font-size:12px;color:#456;margin-top:6px">Alt: ' + m.alt + '</div>' : ''}</div>
+          </div>
+          <div style="text-align:right"><div style="font-weight:700">${m.form || '-'}</div></div>`;
+                    rxList.appendChild(item);
+                });
+            }
+        }
+
+        // logo upload preview
+        logoInput.addEventListener('change', (e) => {
+            const f = e.target.files && e.target.files[0];
+            if (!f) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const data = ev.target.result;
+                presLogo.innerHTML = `<img src="${data}" alt="logo">`;
+                logoBox.innerHTML = `<img src="${data}" alt="logo">`;
+            };
+            reader.readAsDataURL(f);
+        });
+
+        // Buttons
+        addMedBtn.onclick = () => addMedicine();
+        updatePreviewBtn.onclick = () => updatePreview();
+        clearMedsBtn.onclick = () => {
+            if (!confirm('Clear all medicine input fields?')) return;
+            medList.innerHTML = ''; updatePreview();
+        };
+
+        // initial sample meds
+        addMedicine({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Ketorol-Alt' });
+        addMedicine({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+        updatePreview();
+
+        // ---------- PDF generation (only the prescription card) ----------
+        // Uses html2pdf bundle loaded above.
+        function generatePdfBlob(element) {
+            // options tuned for crisp output
+            const opt = {
+                margin: [10 / 72, 8 / 72, 10 / 72, 8 / 72], // inches (converted)
+                filename: 'Prescription.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true },
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+            };
+            // html2pdf().from(element).set(opt).save(); // old save flow
+            return html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+                // pdf is jsPDF instance
+                const blob = pdf.output('blob');
+                return blob;
+            });
+        }
+
+        // Create File from blob
+        function blobToFile(blob, filename) {
+            try {
+                return new File([blob], filename, { type: 'application/pdf' });
+            } catch (e) {
+                // Safari fallback: File may not be constructible; use Blob with name prop
+                blob.name = filename;
+                return blob;
+            }
+        }
+
+        // Try to share file via Web Share API (level 2)
+        async function tryShareFile(file, text) {
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Prescription',
+                        text: text
+                    });
+                    return { shared: true };
+                } catch (err) {
+                    return { shared: false, error: err };
+                }
+            } else {
+                return { shared: false, error: 'Web Share API unavailable or cannot share files on this browser.' };
+            }
+        }
+
+        // Open wa.me link with prefilled message (fallback)
+        function openWhatsAppLink(phone, message) {
+            const encoded = encodeURIComponent(message);
+            const url = phone ? `https://wa.me/${phone}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
+            window.open(url, '_blank');
+        }
+
+        // Build simple text message for WhatsApp
+        function buildWhatsAppText() {
+            const name = patientNameInput.value || 'Patient';
+            const gender = patientGenderInput.value || '';
+            let msg = `${name} ${gender}%0APrescription from ASRANI LASER DENTAL CLINIC%0ADate: ${formatDate()}%0A%0A`;
+            const meds = collectMeds();
+            if (meds.length === 0) msg += 'No medicines.';
+            else {
+                meds.forEach((m, i) => {
+                    msg += `${i + 1}. ${m.name || '-'} - ${m.dose || '-'} - ${m.duration || '-'} (${m.form || '-'})%0A`;
+                });
+            }
+            msg += `%0A(Please find attached prescription PDF)`;
+            return msg;
+        }
+
+        // Share button click: generate pdf blob, then try Web Share; fallback to download + wa.me link
+        sharePdfBtn.addEventListener('click', async () => {
+            updatePreview(); // ensure latest
+            const element = document.getElementById('prescriptionExport');
+            try {
+                sharePdfBtn.disabled = true;
+                sharePdfBtn.textContent = 'Generating...';
+                const blob = await generatePdfBlob(element);
+                const file = blobToFile(blob, 'Prescription.pdf');
+                const phoneRaw = (patientPhoneInput.value || '').replace(/\s+/g, '').replace(/\+/g, '');
+                const phone = phoneRaw ? phoneRaw : '';
+                const waText = decodeURIComponent(buildWhatsAppText()); // readable text for share API
+                // Try Web Share (best UX on mobile)
+                const shareRes = await tryShareFile(file, waText);
+                if (shareRes.shared) {
+                    alert('Share dialog opened. Select WhatsApp to send the PDF.');
+                } else {
+                    // fallback: download and open wa.me with message that instructs user to attach PDF
+                    // trigger auto-download
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Prescription.pdf';
+                    document.body.appendChild(a); a.click(); a.remove();
+                    URL.revokeObjectURL(url);
+                    // open wa.me prefilled
+                    const msg = `Hello, I have shared prescription for ${patientNameInput.value || 'patient'}. Please attach the downloaded PDF.`;
+                    openWhatsAppLink(phone, msg + '%0A%0A' + buildWhatsAppText());
+                    alert('PDF downloaded. WhatsApp opened with prefilled message — please attach the downloaded PDF to the chat before sending.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error while generating/sharing PDF. Check console for details.');
+            } finally {
+                sharePdfBtn.disabled = false;
+                sharePdfBtn.textContent = 'Generate & Share PDF to WhatsApp';
+            }
+        });
+
+        // Download-only button
+        downloadPdfBtn.addEventListener('click', async () => {
+            updatePreview();
+            const element = document.getElementById('prescriptionExport');
+            try {
+                downloadPdfBtn.disabled = true;
+                downloadPdfBtn.textContent = 'Preparing...';
+                const blob = await generatePdfBlob(element);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = 'Prescription.pdf';
+                document.body.appendChild(a); a.click(); a.remove();
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                console.error(err);
+                alert('Failed to download PDF.');
+            } finally {
+                downloadPdfBtn.disabled = false;
+                downloadPdfBtn.textContent = 'Download Prescription PDF';
+            }
+        });
+
+        // Helpful: Save med name on blur automatically (also Save Name button exists)
+        medList.addEventListener('focusout', (e) => {
+            if (e.target && e.target.classList.contains('med-name')) {
+                const val = e.target.value.trim();
+                if (val && !storedMeds.includes(val)) {
+                    // store
+                    storedMeds.push(val);
+                    localStorage.setItem(medKey, JSON.stringify(storedMeds));
+                    refreshSuggestions();
+                }
+            }
+        });
+
+        // keyboard: add med with Enter when focus on last med-name
+        document.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' && ev.target && ev.target.classList.contains('med-name')) {
+                // if last med name filled, add new med
+                const names = document.querySelectorAll('.med-name');
+                if (names.length && ev.target === names[names.length - 1]) {
+                    addMedicine(); updatePreview();
+                }
+            }
+        });
+
+        // Accessibility: update preview when patient fields change
+        patientNameInput.addEventListener('input', updatePreview);
+        patientGenderInput.addEventListener('input', updatePreview);
+
+
+    </script>
+
+
+</body>
+
+</html>

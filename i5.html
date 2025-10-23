@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>BluDoc - Prescription (Templates)</title>
+    <title>Dr-Anshul-Asrani's - Prescription (Templates)</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <link rel="icon" href="./assets/favicon.jpeg">
+
     <style>
         :root {
             --blue-900: #073763;
@@ -366,7 +368,8 @@
                     <img src="./assets/favicon.jpeg" alt="asrani-logo">
                 </div>
                 <div style="flex:1">
-                    <div style="font-weight:700;color:var(--blue-900)">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</div>
+                    <div style="font-weight:700;color:var(--blue-900)">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE,
+                        INDORA SQUARE </div>
                     <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Anshul A Asrani • MDS -
                         Conservative
                         & Endodontics</div>
@@ -376,7 +379,8 @@
                 </div>
             </div>
 
-            <!-- <label>Upload logo (optional)</label> -->
+            <!-- <label>Upload logo </label> -->
+            <!-- <input id="logoInput" type="file" accept="image/*" /> -->
             <input id="logoInput" type="file" accept="image/*" />
 
             <label>Patient name</label>
@@ -431,11 +435,11 @@
                     </div>
 
                     <div class="pres-info">
-                        <h1 id="clinicTitle">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</h1>
+                        <h1 id="clinicTitle">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE, INDORA SQUARE </h1>
                         <p id="doctorLine">Dr. Anshul A Asrani • MDS - Conservative & Endodontics</p>
                         <p id="doctorLine">Dr. Ravina A Asrani • MDS - Prosthodontist & Implantologist</p>
                         <p style="font-size:12px;color:rgba(255,255,255,0.9)">Reg. No - A-28742 • Rabyjyoti Nest,
-                            Ambedkar Road, Nagpur.</p>
+                            Ambedkar Road</p>
                     </div>
                 </div>
 
@@ -463,23 +467,19 @@
                     <div class="pres-footer">
                         <div>
                             <div style="font-weight:700">Visiting Hours</div>
-                            <div style="font-size:13px;margin-top:4px">10:00 AM - 4:00 PM, <br>6:00 PM - 10:00 PM</div>
+                            <div style="font-size:13px;margin-top:4px">10:00 AM - 4:00 PM, 6:00 PM - 10:00 PM</div>
                         </div>
                         <div style="text-align:right">
                             <div style="font-weight:700">Contact</div>
-                            <div style="font-size:13px;margin-top:4px">+919595956560
-                                <br> +919767368738
-                            </div>
+                            <div style="font-size:13px;margin-top:4px">+919595956560</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="site-footer" style="margin-top:10px">
-                <div style="margin-top:6px"><strong>Working Days:</strong> All 7 Days (Saturday-Sunday-Monday-Tuesday
-                    -Wednesday-Thursday-Friday)</div>
-                <div style="margin-top:6px"><strong>Contact:</strong> +919595956560/ +919767368738
-                    <br><strong> • Email:- </strong> dranshulasrani@gmail.com
+                <div><strong>Working Days:</strong> All 7 Days (Saturday - Friday)</div>
+                <div style="margin-top:6px"><strong>Contact:</strong> +919595956560 • Email: dranshulasrani@gmail.com
                 </div>
             </div>
 
@@ -557,8 +557,7 @@
           <input class="med-dose" placeholder="Dose (e.g. 1-0-1)" value="${escapeHtml(initial.dose)}" />
         </div>
         <div class="row">
-          <!-- <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/> -->
-           <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
+          <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
           <input class="med-form" placeholder="Form (Tablet/Oral)" value="${escapeHtml(initial.form)}"/>
         </div>
         <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
@@ -724,8 +723,8 @@
         updatePreviewBtn.onclick = updatePreview;
 
         // initialize with two meds
-        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Ketorol-Alt' });
-        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Ketorol-Alt' });
+        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Zerodol-Alt' });
         updatePreview();
 
         // --- PDF generation (prescription only) ---
@@ -773,27 +772,34 @@
             updatePreview();
             const element = document.getElementById('prescriptionExport');
             try {
-                sharePdfBtn.disabled = true; sharePdfBtn.textContent = 'Generating...';
+                sharePdfBtn.disabled = true;
+                sharePdfBtn.textContent = 'Generating...';
+
                 const blob = await generatePdfBlob(element);
                 const file = blobToFile(blob, 'Prescription.pdf');
-                const phoneRaw = (patientPhoneInput.value || '').replace(/\s+/g, '').replace(/\+/g, '');
-                const phone = phoneRaw ? phoneRaw : '';
-                const waTextForShare = buildWhatsAppText();
-                const shareRes = await tryShareFile(file, waTextForShare);
-                if (shareRes.shared) {
-                    alert('Share dialog opened. Choose WhatsApp (if available) to send the PDF.');
-                } else {
-                    // fallback: download + open wa.me with message instructing to attach
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a'); a.href = url; a.download = 'Prescription.pdf'; document.body.appendChild(a); a.click(); a.remove();
-                    URL.revokeObjectURL(url);
-                    const msg = `Hello, I have shared prescription for ${patientNameInput.value || 'patient'}. Please attach the downloaded PDF.`;
-                    openWhatsAppLink(phone, msg + '\n\n' + buildWhatsAppText());
-                    alert('PDF downloaded. WhatsApp opened — please attach the downloaded PDF before sending.');
-                }
-            } catch (err) { console.error(err); alert('Error generating/sharing PDF. See console.'); }
-            finally { sharePdfBtn.disabled = false; sharePdfBtn.textContent = 'Generate & Share PDF to WhatsApp'; }
+
+                // Get the phone number entered in app
+                let phoneRaw = (patientPhoneInput.value || '').replace(/\s+/g, '').replace(/\+/g, '');
+                if (!phoneRaw) return alert('Please enter patient WhatsApp number.');
+
+                // Build WhatsApp text
+                const waText = buildWhatsAppText();
+
+                // Open WhatsApp Web with the number and text
+                const waURL = `https://wa.me/${phoneRaw}?text=${encodeURIComponent(waText)}`;
+                window.open(waURL, '_blank');
+
+                alert('WhatsApp opened with message for the entered number. Attach PDF if needed.');
+
+            } catch (err) {
+                console.error(err);
+                alert('Error generating/sharing PDF. See console.');
+            } finally {
+                sharePdfBtn.disabled = false;
+                sharePdfBtn.textContent = 'Generate & Share PDF to WhatsApp';
+            }
         });
+
 
         downloadPdfBtn.addEventListener('click', async () => {
             updatePreview();

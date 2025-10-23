@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Prescription | Asrani Dental Clinic</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f6fb;
+            color: #333;
+        }
+
+        header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        h3 {
+            margin: 8px 0 4px 0;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .medicines {
+            margin-top: 15px;
+        }
+
+        .medicines input {
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: gray;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .logo img {
+                width: 50px;
+                height: 50px;
+            }
+
+            header {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>Asrani Dental Clinic Prescription</header>
+
+    <div class="container">
+        <div class="logo">
+            <img src="./logo.png" alt="Clinic Logo" />
+            <div>
+                <strong>ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</strong><br />
+                Dr. Anshul Asrani (MDS - Conservative & Endodontics)<br />
+                Dr. Ravina A. Asrani (MDS - Prosthodontist & Implantologist)
+            </div>
+        </div>
+
+        <h3>Patient Details</h3>
+        <input type="text" id="name" placeholder="Patient Name" />
+        <input type="text" id="age" placeholder="Age/Gender" />
+        <input type="text" id="phone" placeholder="Phone Number" />
+
+        <h3>Prescription (Rx)</h3>
+        <div id="medicines" class="medicines"></div>
+        <button onclick="addMedicine()">Add Medicine</button>
+
+        <br /><br />
+        <button onclick="generatePDF()">Generate Prescription PDF</button>
+        <button onclick="sendWhatsApp()">Send on WhatsApp</button>
+
+        <div class="footer">
+            <strong>Working Days:</strong> All 7 Days (Sunday - Saturday)<br />
+            <strong>Visiting Hours:</strong> 10:00 AM - 4:00 PM | 6:00 PM - 10:00 PM<br />
+            <strong>Contact:</strong> +91 9595956560
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+        const medicinesDiv = document.getElementById("medicines");
+        let medicineList = [];
+
+        function addMedicine() {
+            const medInput = document.createElement("input");
+            medInput.type = "text";
+            medInput.placeholder = "Medicine name & dosage";
+            medInput.className = "med";
+            medicinesDiv.appendChild(medInput);
+            medicineList.push(medInput);
+        }
+
+        function generatePDF() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const phone = document.getElementById("phone").value;
+
+            const doc = new jsPDF();
+            const logo = new Image();
+            logo.src = "./logo.png";
+
+            logo.onload = function () {
+                doc.addImage(logo, "PNG", 10, 10, 20, 20);
+                doc.setFontSize(16);
+                doc.text("ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE", 35, 18);
+                doc.setFontSize(10);
+                doc.text("Dr. Anshul Asrani (MDS - Conservative & Endodontics)", 35, 24);
+                doc.text("Dr. Ravina A. Asrani (MDS - Prosthodontist & Implantologist)", 35, 29);
+
+                doc.setFontSize(12);
+                doc.text(`Patient: ${name}`, 10, 45);
+                doc.text(`Age/Gender: ${age}`, 10, 52);
+                doc.text(`Phone: ${phone}`, 10, 59);
+                doc.text("Rx:", 10, 70);
+
+                let y = 80;
+                medicineList.forEach((m) => {
+                    if (m.value.trim() !== "") {
+                        doc.text(`• ${m.value}`, 15, y);
+                        y += 8;
+                    }
+                });
+
+                doc.setFontSize(10);
+                doc.text("Working Days: All 7 Days (Sun - Sat)", 10, 270);
+                doc.text("Visiting Hours: 10:00 AM - 4:00 PM | 6:00 PM - 10:00 PM", 10, 276);
+                doc.text("Contact: +91 9595956560", 10, 282);
+
+                doc.save(`${name || "Prescription"}.pdf`);
+            };
+        }
+
+        function sendWhatsApp() {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const msg = `Hello ${name}, this is your prescription from Asrani Dental Clinic.`;
+            const url = `https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`;
+            window.open(url, "_blank");
+        }
+    </script>
+</body>
+
+</html>

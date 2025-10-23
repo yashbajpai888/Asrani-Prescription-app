@@ -7,7 +7,7 @@
     <title>BluDoc - Prescription (Templates)</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="./assets/favicon.jpeg">
+
     <style>
         :root {
             --blue-900: #073763;
@@ -358,44 +358,38 @@
         <div class="panel" aria-label="Controls">
             <div class="logo-area">
                 <div class="logo-box" id="logoBox">
-                    <!-- <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
                         <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2" stroke-linecap="round" />
                         <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
-                    </svg> -->
-                    <img src="./assets/favicon.jpeg" alt="asrani-logo">
+                    </svg>
                 </div>
                 <div style="flex:1">
                     <div style="font-weight:700;color:var(--blue-900)">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</div>
-                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Anshul A Asrani • MDS -
-                        Conservative
+                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Anshul Asrani • MDS - Conservative
                         & Endodontics</div>
-                    <div style="font-size:13px;color:var(--muted);margin-top:4px">Dr. Ravina A Asrani • MDS -
-                        Prosthodontist
-                        & Implantologist </div>
                 </div>
             </div>
 
-            <!-- <label>Upload logo (optional)</label> -->
+            <label>Upload logo (optional)</label>
             <input id="logoInput" type="file" accept="image/*" />
 
             <label>Patient name</label>
-            <input id="patientName" type="text" placeholder="Patient name" value="" />
+            <input id="patientName" type="text" placeholder="Patient name" value="Mr. R Chelani" />
 
             <label>Gender / Age</label>
-            <input id="patientGender" type="text" placeholder="Male, 38 yrs" value="" />
+            <input id="patientGender" type="text" placeholder="Male, 38 yrs" value="Male, 38 yrs" />
 
             <label>Patient WhatsApp no. (with country code) — optional</label>
-            <input id="patientPhone" type="tel" placeholder="+9198XXXXXXXX" value="+91" />
+            <input id="patientPhone" type="tel" placeholder="+9198XXXXXXXX" />
 
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
                 <div style="display:flex;gap:8px">
                     <button class="btn small" style="color:white" id="addTemplateBtn">+ Add New Template</button>
                     <button class="btn small" style="color:white" id="useTemplateBtn">Use Previous Template</button>
                     <button class="btn small" style="color:white" id="manageTemplateBtn">Delete Template</button>
-                    <button class="btn small" style="color:white" id="addMedBtn">+ Add Medicine</button>
                 </div>
-                <!-- <button class="btn small" style="color:white" id="addMedBtn">+ Add Medicine</button> -->
+                <button class="btn small" style="color:white" id="addMedBtn">+ Add Medicine</button>
             </div>
 
             <small class="small">Type medicine name once → it will be saved for suggestions. Templates store medicine
@@ -421,21 +415,19 @@
             <div id="prescriptionExport" class="pres-card" role="region" aria-label="Prescription">
                 <div class="pres-top">
                     <div class="pres-logo" id="presLogo">
-                        <!-- <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
                             <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2"
                                 stroke-linecap="round" />
                             <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
-                        </svg> -->
-                        <img src="./assets/favicon.jpeg" alt="">
+                        </svg>
                     </div>
 
                     <div class="pres-info">
                         <h1 id="clinicTitle">ASRANI LASER DENTAL CLINIC & IMPLANT CENTRE</h1>
-                        <p id="doctorLine">Dr. Anshul A Asrani • MDS - Conservative & Endodontics</p>
-                        <p id="doctorLine">Dr. Ravina A Asrani • MDS - Prosthodontist & Implantologist</p>
+                        <p id="doctorLine">Dr. Anshul Asrani • MDS - Conservative & Endodontics</p>
                         <p style="font-size:12px;color:rgba(255,255,255,0.9)">Reg. No - A-28742 • Rabyjyoti Nest,
-                            Ambedkar Road, Nagpur.</p>
+                            Ambedkar Road</p>
                     </div>
                 </div>
 
@@ -463,23 +455,19 @@
                     <div class="pres-footer">
                         <div>
                             <div style="font-weight:700">Visiting Hours</div>
-                            <div style="font-size:13px;margin-top:4px">10:00 AM - 4:00 PM, <br>6:00 PM - 10:00 PM</div>
+                            <div style="font-size:13px;margin-top:4px">10:00 AM - 4:00 PM, 6:00 PM - 10:00 PM</div>
                         </div>
                         <div style="text-align:right">
                             <div style="font-weight:700">Contact</div>
-                            <div style="font-size:13px;margin-top:4px">+919595956560
-                                <br> +919767368738
-                            </div>
+                            <div style="font-size:13px;margin-top:4px">+919595956560</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="site-footer" style="margin-top:10px">
-                <div style="margin-top:6px"><strong>Working Days:</strong> All 7 Days (Saturday-Sunday-Monday-Tuesday
-                    -Wednesday-Thursday-Friday)</div>
-                <div style="margin-top:6px"><strong>Contact:</strong> +919595956560/ +919767368738
-                    <br><strong> • Email:- </strong> dranshulasrani@gmail.com
+                <div><strong>Working Days:</strong> All 7 Days (Saturday - Friday)</div>
+                <div style="margin-top:6px"><strong>Contact:</strong> +919595956560 • Email: dranshulasrani@gmail.com
                 </div>
             </div>
 
@@ -557,8 +545,7 @@
           <input class="med-dose" placeholder="Dose (e.g. 1-0-1)" value="${escapeHtml(initial.dose)}" />
         </div>
         <div class="row">
-          <!-- <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/> -->
-           <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
+          <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
           <input class="med-form" placeholder="Form (Tablet/Oral)" value="${escapeHtml(initial.form)}"/>
         </div>
         <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
@@ -724,8 +711,8 @@
         updatePreviewBtn.onclick = updatePreview;
 
         // initialize with two meds
-        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Ketorol-Alt' });
-        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Ketorol-Alt' });
+        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Zerodol-Alt' });
         updatePreview();
 
         // --- PDF generation (prescription only) ---
@@ -862,9 +849,9 @@
                         const row = document.createElement('div'); row.className = 'template-row';
                         const meta = document.createElement('div'); meta.className = 'meta'; meta.innerHTML = `<strong>${t.name}</strong><div style="font-size:12px;color:#456">${t.meds.length} medicines</div>`;
                         const controls = document.createElement('div'); controls.className = 'controls';
-                        const useBtn = document.createElement('button'); useBtn.className = 'btn large'; useBtn.textContent = 'Use';
-                        const editBtn = document.createElement('button'); editBtn.className = 'btn large ghost'; editBtn.textContent = 'Edit';
-                        const delBtn = document.createElement('button'); delBtn.className = 'btn large danger'; delBtn.textContent = 'Delete';
+                        const useBtn = document.createElement('button'); useBtn.className = 'btn small'; useBtn.textContent = 'Use';
+                        const editBtn = document.createElement('button'); editBtn.className = 'btn ghost small'; editBtn.textContent = 'Edit';
+                        const delBtn = document.createElement('button'); delBtn.className = 'btn danger small'; delBtn.textContent = 'Delete';
                         controls.appendChild(useBtn); controls.appendChild(editBtn); controls.appendChild(delBtn);
                         row.appendChild(meta); row.appendChild(controls);
                         listWrap.appendChild(row);
@@ -949,8 +936,8 @@
         refreshMedSuggestions();
         // If there are templates, keep medList empty; otherwise add defaults:
         if (templates.length === 0 && medList.children.length === 0) {
-            createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Ketorol-Alt' });
-            createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+            createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Ketorol-Alt' });
+            createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Zerodol-Alt' });
         } else if (medList.children.length === 0 && templates.length > 0) {
             // don't auto-load template; doctor will choose
         }
