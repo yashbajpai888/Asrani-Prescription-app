@@ -413,7 +413,23 @@
                 Tip: On mobile, sharing the prescription PDF directly to WhatsApp is supported when your browser allows
                 file sharing.
             </div>
+
+            <!-- footer another section for all days and gen pdf whtsap, section below main med panel -->
+
+            <div class="site-footer" style="margin-top:10px">
+                <div style="margin-top:6px"><strong>Working Days:</strong> All 7 Days (Saturday-Sunday-Monday-Tuesday
+                    -Wednesday-Thursday-Friday)</div>
+                <div style="margin-top:6px"><strong>Contact:</strong> +919767368738/ +919595956560
+                    <br><strong> • Email:- </strong> dranshulasrani@gmail.com
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:10px">
+                <button class="btn" id="sharePdfBtn">Generate & Share PDF to WhatsApp</button>
+                <button class="btn ghost" id="downloadPdfBtn">Download Prescription PDF</button>
+            </div>
         </div>
+
 
         <!-- RIGHT: Preview -->
         <div class="preview-wrap">
@@ -439,7 +455,8 @@
                     </div>
                 </div>
 
-                <div class="pres-body" id="presBody">
+                <div class="pres-body" id="presBody" style="height: 980px; font-size:xx-large">
+                    <!-- here height is updated sytle tag is new here  -->
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div>
                             <div style="font-size:13px;color:var(--muted)">Patient</div>
@@ -463,11 +480,11 @@
                     <div class="pres-footer">
                         <div>
                             <div style="font-weight:700">Visiting Hours</div>
-                            <div style="font-size:13px;margin-top:4px">10:00 AM - 4:00 PM, <br>6:00 PM - 10:00 PM</div>
+                            <div style="font-size:18px;margin-top:4px; padding-left:50px">10am- 9pm</div>
                         </div>
-                        <div style="text-align:right">
+                        <div style="text-align:right; padding-right:2px">
                             <div style="font-weight:700">Contact</div>
-                            <div style="font-size:13px;margin-top:4px">+919767368738
+                            <div style="font-size:18px;margin-top:4px">+919767368738
                                 <br> +919595956560
                             </div>
                         </div>
@@ -475,7 +492,8 @@
                 </div>
             </div>
 
-            <div class="site-footer" style="margin-top:10px">
+            <!-- Footer SEctio of pdf -->
+            <!-- <div class="site-footer" style="margin-top:10px">
                 <div style="margin-top:6px"><strong>Working Days:</strong> All 7 Days (Saturday-Sunday-Monday-Tuesday
                     -Wednesday-Thursday-Friday)</div>
                 <div style="margin-top:6px"><strong>Contact:</strong> +919767368738/ +919595956560
@@ -486,7 +504,7 @@
             <div style="display:flex;gap:8px;margin-top:10px">
                 <button class="btn" id="sharePdfBtn">Generate & Share PDF to WhatsApp</button>
                 <button class="btn ghost" id="downloadPdfBtn">Download Prescription PDF</button>
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -558,8 +576,8 @@
         </div>
         <div class="row">
           <!-- <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/> -->
-           <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
-          <input class="med-form" placeholder="Form (Tablet/Oral)" value="${escapeHtml(initial.form)}"/>
+           <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="3days"/>
+          <input class="med-form" placeholder="Form (Before Meal/After Meals)" value="${escapeHtml(initial.form)}"/>
         </div>
         <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
         <div style="display:flex;gap:8px;justify-content:flex-end">
@@ -623,9 +641,9 @@
                 meds.forEach((m, i) => {
                     const item = document.createElement('div'); item.className = 'rx-item';
                     item.innerHTML = `<div class="left"><b>${i + 1}. ${m.name || '—'}</b>
-            <div style="font-size:13px;color:#234">${m.dose ? m.dose + ' • ' : ''}${m.dur || ''}${m.alt ? '<div style="font-size:12px;color:#456;margin-top:6px">Alt: ' + m.alt + '</div>' : ''}</div>
-          </div>
-          <div style="text-align:right"><div style="font-weight:700">${m.form || '-'}</div></div>`;
+            <div style="font-size:20px;color:#234">${m.dose ? m.dose + ' • ' : ''}${m.dur || ''}${m.alt ? '<div style="font-size:12px;color:#456;margin-top:6px">Alt: ' + m.alt + '</div>' : ''}</div> 
+          </div >
+                        <div style="text-align:right"><div style="font-weight:700">${m.form || '-'}</div></div>`;
                     rxList.appendChild(item);
                 });
             }
@@ -638,8 +656,8 @@
             const reader = new FileReader();
             reader.onload = (ev) => {
                 const data = ev.target.result;
-                presLogo.innerHTML = `<img src="${data}" alt="logo">`;
-                logoBox.innerHTML = `<img src="${data}" alt="logo">`;
+                presLogo.innerHTML = `< img src = "${data}" alt = "logo" > `;
+                logoBox.innerHTML = `< img src = "${data}" alt = "logo" > `;
             };
             reader.readAsDataURL(f);
         });
@@ -647,8 +665,8 @@
         // --- initial meds ---
         function addDefaultMeds() {
             // keep as before - two sample meds
-            createMedElement({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Ketorol-Alt' });
-            createMedElement({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+            createMedElement({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Before/After Meals', alt: 'Ketorol-Alt' });
+            createMedElement({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Before/After Meals', alt: 'Zerodol-Alt' });
         }
 
         // wrapper so naming consistent
@@ -672,20 +690,24 @@
             const div = document.createElement('div');
             div.className = 'med-item';
             div.innerHTML = `
-        <div class="row">
+                        <div div class="row" >
           <input list="medSuggestions" class="med-name" placeholder="Medicine name" value="${escapeHtml(initial.name)}" />
           <input class="med-dose" placeholder="Dose (e.g. 1-0-1)" value="${escapeHtml(initial.dose)}" />
-        </div>
+        </div >
         <div class="row">
-          <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/>
-          <input class="med-form" placeholder="Form (Tablet/Oral)" value="${escapeHtml(initial.form)}"/>
+          <!-- <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/> -->
+           <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="3 Days"/>
+          
+           <!-- here Before/After Meal Premade -->
+           <!-- <input class="med-form" placeholder="Form (Before/After Meals)" value="${escapeHtml(initial.form)}"/> -->
+            <input class="med-form" placeholder="Form (Before/After Meals)" value=""/>
         </div>
         <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
         <div style="display:flex;gap:8px;justify-content:flex-end">
           <button class="btn ghost save-med small">Save Name</button>
           <button class="btn ghost remove-med small" style="color:red">Remove</button>
         </div>
-      `;
+                    `;
             medList.appendChild(div);
 
             const saveBtn = div.querySelector('.save-med');
@@ -724,12 +746,12 @@
         updatePreviewBtn.onclick = updatePreview;
 
         // initialize with two meds
-        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Ketorol-Alt' });
-        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before Meal/After Meals', alt: 'Ketorol-Alt' });
+        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before Meal/After Meals', alt: 'Zerodol-Alt' });
         updatePreview();
 
         // --- PDF generation (prescription only) ---
-        function generatePdfBlob(element) {
+        /*function generatePdfBlob(element) {
             const opt = {
                 margin: [10 / 72, 8 / 72, 10 / 72, 8 / 72],
                 filename: 'Prescription.pdf',
@@ -738,7 +760,24 @@
                 jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
             };
             return html2pdf().set(opt).from(element).toPdf().get('pdf').then(pdf => pdf.output('blob'));
+        }*/
+        function generatePdfBlob(element) {
+            const opt = {
+                margin: 0,
+                filename: 'Prescription.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 3, useCORS: true, logging: false },
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Make sure element matches A4 width
+            /* element.style.width = '794px'; */
+            element.style.width = '794px';
+            /* element.style.height = '1125px';  */
+
+            return html2pdf().set(opt).from(element).toPdf().get('pdf').then(pdf => pdf.output('blob'));
         }
+
 
         function blobToFile(blob, filename) {
             try { return new File([blob], filename, { type: 'application/pdf' }); }
@@ -949,8 +988,8 @@
         refreshMedSuggestions();
         // If there are templates, keep medList empty; otherwise add defaults:
         if (templates.length === 0 && medList.children.length === 0) {
-            createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Ketorol-Alt' });
-            createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Tablet', alt: 'Zerodol-Alt' });
+            createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before /After Meals', alt: 'Ketorol-Alt' });
+            createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before /After Meals', alt: 'Zerodol-Alt' });
         } else if (medList.children.length === 0 && templates.length > 0) {
             // don't auto-load template; doctor will choose
         }
