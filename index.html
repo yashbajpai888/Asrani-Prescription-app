@@ -437,12 +437,12 @@
             <div id="prescriptionExport" class="pres-card" role="region" aria-label="Prescription">
                 <div class="pres-top">
                     <div class="pres-logo" id="presLogo">
-                        <!-- <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="2" y="2" width="20" height="20" rx="4" fill="#eaf6ff" />
                             <path d="M7 16c1.5-2 10-2 10 0" stroke="#9fc9f7" stroke-width="1.2"
                                 stroke-linecap="round" />
                             <circle cx="12" cy="9" r="2.6" stroke="#9fc9f7" stroke-width="1.2" />
-                        </svg> -->
+                        </svg>
                         <img src="./assets/favicon.jpeg" alt="">
                     </div>
 
@@ -577,7 +577,8 @@
         <div class="row">
           <!-- <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="${escapeHtml(initial.duration)}"/> -->
            <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="3days"/>
-          <input class="med-form" placeholder="Form (Before Meal/After Meals)" value="${escapeHtml(initial.form)}"/>
+          <!-- <input class="med-form" placeholder="Form (Before Meal-After Meal)" value="${escapeHtml(initial.form || initial.beforeAfter || initial.duration || '')}"/> -->
+           <input class="med-form" placeholder="Form (Before Meal-After Meal)" value="${escapeHtml(initial.form || initial.beforeAfter || initial.duration || '')}"/>
         </div>
         <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
         <div style="display:flex;gap:8px;justify-content:flex-end">
@@ -622,7 +623,7 @@
                 const name = node.querySelector('.med-name').value.trim();
                 const dose = node.querySelector('.med-dose').value.trim();
                 const dur = node.querySelector('.med-duration').value.trim();
-                const form = node.querySelector('.med-form').value.trim();
+                const form = node.querySelector('.med-form')?.value.trim() || '';
                 const alt = node.querySelector('.med-alt').value.trim();
                 if (name || dose || dur || form || alt) items.push({ name, dose, dur, form, alt });
             });
@@ -665,8 +666,8 @@
         // --- initial meds ---
         function addDefaultMeds() {
             // keep as before - two sample meds
-            createMedElement({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Before/After Meals', alt: 'Ketorol-Alt' });
-            createMedElement({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Before/After Meals', alt: 'Zerodol-Alt' });
+            createMedElement({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '5 days', form: 'Before-After Meals', alt: 'Ketorol-Alt' });
+            createMedElement({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '5 days', form: 'Before-After Meals', alt: 'Zerodol-Alt' });
         }
 
         // wrapper so naming consistent
@@ -699,8 +700,14 @@
            <input class="med-duration" placeholder="Duration (e.g. 5 days)" value="3 Days"/>
           
            <!-- here Before/After Meal Premade -->
-           <!-- <input class="med-form" placeholder="Form (Before/After Meals)" value="${escapeHtml(initial.form)}"/> -->
-            <input class="med-form" placeholder="Form (Before/After Meals)" value=""/>
+           <input class="med-form" placeholder="Form (Before-After Meals)" value="${escapeHtml(initial.form || initial.beforeAfter || initial.duration || '')}"/>
+            <!-- <select class="med-form">
+              <option value="">Meal</option>
+              <option value="Before Meal" ${initial.form === 'Before Meal' ? 'selected' : ''}>Before Meal</option>
+              <option value="After Meal" ${initial.form === 'After Meal' ? 'selected' : ''}>After Meal</option>
+            </select> -->
+
+
         </div>
         <input class="med-alt" placeholder="Alternative (optional)" value="${escapeHtml(initial.alt)}"/>
         <div style="display:flex;gap:8px;justify-content:flex-end">
@@ -746,8 +753,10 @@
         updatePreviewBtn.onclick = updatePreview;
 
         // initialize with two meds
-        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before Meal/After Meals', alt: 'Ketorol-Alt' });
-        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before Meal/After Meals', alt: 'Zerodol-Alt' });
+        /* createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before Meal-After Meal', alt: 'Ketorol-Alt' });
+         createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before Meal-After Meal', alt: 'Zerodol-Alt' }); */
+        createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '', form: '', alt: 'Ketorol-Alt' });
+        createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '', form: '', alt: 'Zerodol-Alt' });
         updatePreview();
 
         // --- PDF generation (prescription only) ---
@@ -988,8 +997,8 @@
         refreshMedSuggestions();
         // If there are templates, keep medList empty; otherwise add defaults:
         if (templates.length === 0 && medList.children.length === 0) {
-            createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before /After Meals', alt: 'Ketorol-Alt' });
-            createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before /After Meals', alt: 'Zerodol-Alt' });
+            createMedElementImplementation_core({ name: 'Ketorol-DT', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before -After Meals', alt: 'Ketorol-Alt' });
+            createMedElementImplementation_core({ name: 'Zerodol SP', dose: 'BD (1-0-1)', duration: '3 days', form: 'Before -After Meals', alt: 'Zerodol-Alt' });
         } else if (medList.children.length === 0 && templates.length > 0) {
             // don't auto-load template; doctor will choose
         }
@@ -997,6 +1006,9 @@
 
         // expose templates list to console for convenience
         window._bldoc = { templates, savedMeds, reload: () => { templates = JSON.parse(localStorage.getItem(templateKey) || '[]'); savedMeds = JSON.parse(localStorage.getItem(medKey) || '[]'); refreshMedSuggestions(); } };
+
+
+
 
     </script>
 </body>
